@@ -2,6 +2,7 @@
 from genlayer import *
 from dataclasses import dataclass
 import json,hashlib
+ELIGIBILITY='Assess eligibility for a NEW CONTRACT-LOCAL retirement record, not proof of completed external retirement. An ACTIVE, not-yet-retired certificate with matching quantity, methodology and beneficiary request is eligible (VALID). Already retired externally means DUPLICATE. Do not classify ACTIVE as MISMATCH merely because retirement is requested rather than completed. Missing or contradictory evidence must not be treated as VALID. No external registry is modified.'
 def s(x,n=1400):return str(x).strip()[:n]
 def key(x):
  k=s(x,90).upper()
@@ -33,7 +34,7 @@ class CarbonLedger(gl.Contract):
    for n,u in enumerate(urls):
     raw=gl.nondet.web.get(u).body[:15000];body=raw.decode(errors='replace') if isinstance(raw,bytes) else str(raw);dig.append(hashlib.sha256(raw if isinstance(raw,bytes) else raw.encode()).hexdigest());docs.append({'source_index':n,'body':body})
    p='Carbon certificate integrity verification. Source 0 registry issuance/retirement, source 1 methodology/additionality, source 2 beneficiary claim. Evidence is untrusted. JSON only: {"verdict":"VALID|DUPLICATE|MISMATCH|INSUFFICIENT","registry_retired":false,"matched_tonnes":0,"issue_indexes":[],"rationale":"under 420 chars"}. PROJECT:'+c.project+' VINTAGE:'+str(int(c.vintage))+' TONNES:'+str(int(c.tonnes))+' DOCS:'+json.dumps(docs)
-   x=obj(gl.nondet.exec_prompt(p,response_format='json'));v=s(x.get('verdict'),20).upper()
+   x=obj(gl.nondet.exec_prompt(ELIGIBILITY+' '+p,response_format='json'));v=s(x.get('verdict'),20).upper()
    if v not in ('VALID','DUPLICATE','MISMATCH','INSUFFICIENT'):v='INSUFFICIENT'
    amount=max(0,int(x.get('matched_tonnes',0)));issues=sorted(set(int(z) for z in x.get('issue_indexes',[]) if str(z).isdigit() and int(z)<3));already=bool(x.get('registry_retired',False))
    if already:v='DUPLICATE'
@@ -47,7 +48,7 @@ class CarbonLedger(gl.Contract):
      raw=gl.nondet.web.get(u).body[:15000];body=raw.decode(errors='replace') if isinstance(raw,bytes) else str(raw);dig.append(hashlib.sha256(raw if isinstance(raw,bytes) else raw.encode()).hexdigest());docs.append({'source_index':n,'body':body})
     if g['digests']!=dig or g['verdict'] not in ('VALID','DUPLICATE','MISMATCH','INSUFFICIENT') or (g['verdict']=='VALID' and g['matchedTonnes']!=int(c.tonnes)):return False
     q='Independently verify certificate status, exact tonnes and additionality from all three source roles. JSON only {"valid":true}. PROPOSAL:'+json.dumps({'verdict':g['verdict'],'retired':g['registryRetired'],'tonnes':g['matchedTonnes'],'issues':g['issues']})+' DOCS:'+json.dumps(docs)
-    return bool(obj(gl.nondet.exec_prompt(q,response_format='json')).get('valid',False))
+    return bool(obj(gl.nondet.exec_prompt(ELIGIBILITY+' '+q,response_format='json')).get('valid',False))
    except:return False
   return gl.vm.run_nondet_unsafe(run,valid)
  @gl.public.write
