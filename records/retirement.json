@@ -1,0 +1,36 @@
+{
+  "certificateId": "CL-1788541311",
+  "transactions": {
+    "register": "0x234a42d9bf1bde76731fc105b9d76f3e8e5b35a3229380bcf6bfd31449dc05cf",
+    "verify": "0xfcfaa1d7219db05c943f516f1d14ff8bf67a7b5b0da337e09d2beb5b69bac814"
+  },
+  "state": {
+    "id": "CL-1788541311",
+    "owner": "0xAD049E0Edc298C97552eD60071a35bfc60181FD4",
+    "project": "Forest Delta",
+    "proof": {
+      "digests": [
+        "b04ddace366c7d08689d7b176de947d802b823e1b0ad1bee092b992e46ae9ee8",
+        "0d0b9638ca9d0a9797c52f48b8846c8391296f1d24ab97a80e8a87872b5babb4",
+        "d601d32e7a68912c0ec7008a38616b99c4eb7553a0c2f15fddf2bc78d738c40c"
+      ],
+      "issues": [
+        0,
+        1,
+        2
+      ],
+      "matchedTonnes": 50,
+      "rationale": "ACTIVE certificate CL-500 (50t, 2025) matches beneficiary request (50t) and methodology FD-2. No prior retirement detected; evidence aligns across all sources.",
+      "registryRetired": false,
+      "verdict": "VALID"
+    },
+    "sources": [
+      "https://raw.githubusercontent.com/sanshos1/carbon-ledger/2840abe80897a9bbf089cfe96af340952d280a59/specimens/registry-record.txt",
+      "https://raw.githubusercontent.com/sanshos1/carbon-ledger/2840abe80897a9bbf089cfe96af340952d280a59/specimens/methodology.txt",
+      "https://raw.githubusercontent.com/sanshos1/carbon-ledger/2840abe80897a9bbf089cfe96af340952d280a59/specimens/beneficiary-claim.txt"
+    ],
+    "state": "RETIRED",
+    "tonnes": 50,
+    "vintage": 2025
+  }
+}

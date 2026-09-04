@@ -8,7 +8,7 @@ deploy=json.loads((ROOT/"records/deployment.json").read_text());contract=deploy[
 account=create_account(account_private_key=secret(3));client=create_client(chain=studionet,account=account)
 def send(c,fn,args):
  tx=c.write_contract(address=contract,function_name=fn,args=args);print(fn,tx,flush=True)
- c.wait_for_transaction_receipt(transaction_hash=tx,status='ACCEPTED',retries=120,interval=10000);info=c.get_transaction(transaction_hash=tx)
+ c.wait_for_transaction_receipt(transaction_hash=tx,status='ACCEPTED',retries=18,interval=10000);info=c.get_transaction(transaction_hash=tx)
  if info.get('status_name')!='ACCEPTED' or not any(r.get('execution_result')=='SUCCESS' for r in info.get('consensus_data',{}).get('leader_receipt',[])):raise RuntimeError({'function':fn,'tx':tx,'status':info.get('status_name'),'execution':info.get('tx_execution_result_name')})
  return tx
 def negative(c,fn,args,label):

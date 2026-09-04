@@ -42,4 +42,6 @@ The executable [network experiment](research/smoke.py) registers a fresh local I
 
 This is an experimental advisory ledger. It is not a carbon registry or a verified credit issuance system.
 
-Deployment and network-run files are generated after execution; use the paths referenced above to inspect the current evidence.
+[Ledger instance](https://explorer-studio.genlayer.com/address/0x97C08928b17406B49d0041d1f4289FE8B5EFc232) — [creation transaction](https://explorer-studio.genlayer.com/tx/0x630e1f0d5013d092afe2edd2ab2a53c4c55ec257a348fd8234f00d9d3ec3b887). The recorded source revision is `2840abe`.
+
+Rebuild note: the eligibility prompt now distinguishes an ACTIVE certificate eligible for a new local record from a certificate already retired externally. One subsequent run returned INSUFFICIENT; the recorded successful retry does not imply deterministic availability or infallible model judgments.
